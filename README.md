@@ -25,9 +25,9 @@
 
 Таким  чином, коміт буде приймати вигляд:
 ```
-    0;”Add string”;2;/hello.txt
+    0;2;/hello.txt;”Add string”
     1;2;/hello.txt
-    2;”Replace string”;3;/Documents/doc.txt
+    2;3;/Documents/doc.txt;”Replace string”
 ```
  
 Де перший рядок – трактується як: додати  стрічку `Add string` після третього
