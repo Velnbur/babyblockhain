@@ -1,0 +1,18 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-Wall",
+      "-g",
+      "-Iinclude",
+      "-Ilibs",
+      "-c",
+      "-o",
+      "build/operation.o",
+      "src/operation.cpp"
+    ],
+    "directory": "/home/velnbur/Projects/babyblockchain",
+    "file": "/home/velnbur/Projects/babyblockchain/src/operation.cpp",
+    "output": "/home/velnbur/Projects/babyblockchain/build/operation.o"
+  }
+]
