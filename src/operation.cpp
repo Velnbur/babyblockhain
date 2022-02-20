@@ -3,20 +3,32 @@
 
 namespace bc = blockchain;
 
-bc::Operation::Operation(OperationType type, const std::string &str,
-                         const std::string &path)
-    : type(type), str(str)
+bc::Operation::Operation(OperationType type, unsigned int line_number,
+                         const std::string &path, const std::string *str)
+    : type(type), n(line_number)
 {
   if (path[0] != '/')
     this->path = '/' + path;
   else
     this->path = path;
+
+  if (type == bc::OperationType::DELETE)
+    this->str = nullptr;
+  else
+    this->str = new std::string(*str);
 }
 
-std::string bc::Operation::ToString()
+std::string bc::Operation::ToString() const
 {
   std::string result;
-  result += std::to_string(static_cast<int>(type));
-  result += ';' + str + ';' + path;
+  result += std::to_string(static_cast<int>(type)) + ';' + std::to_string(n) +
+            ';' + path;
+  if (type != bc::OperationType::DELETE)
+    result += ";\"" + (*str) + '"';
   return result;
+}
+
+bc::Operation::~Operation()
+{
+  delete str;
 }

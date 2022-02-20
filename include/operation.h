@@ -12,12 +12,14 @@ enum OperationType {
 
 struct Operation {
   OperationType type;
-  std::string str;
+  unsigned int n; // number of line in file
+  std::string *str;
   std::string path;
-
-  Operation(OperationType type, const std::string &str,
-            const std::string &path);
-
+  /*
+  ** if @type is OperationType::DELETE @str will be @nullptr
+  */
+  Operation(OperationType type, unsigned int line_number,
+            const std::string &path, const std::string *str = nullptr);
   /*
   ** Return formated like in documentation string:
   ** 'method;str;path'
@@ -27,7 +29,8 @@ struct Operation {
   ** For example:
   ** '0;"Hello";/hello.txt'
   */
-  std::string ToString();
+  std::string ToString() const;
+  ~Operation();
 };
 } // namespace blockchain
 

@@ -21,12 +21,12 @@ class Transaction {
 
 public:
   /* Operations now belong to Transaction object. */
-  Transaction(std::vector<Operation *> operations, int nonce);
+  Transaction(const std::vector<Operation *> &operations, int nonce);
+  ~Transaction();
   std::string ToString() const;
-
-  friend std::ostream &operator<<(std::ostream &out,
-                                  const Transaction &transaction);
 };
+
+std::ostream &operator<<(std::ostream &out, const Transaction &trans);
 } // namespace blockchain
 
 #endif // TRANSACTION_H_SENTRY

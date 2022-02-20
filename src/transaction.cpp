@@ -4,7 +4,7 @@
 
 namespace bc = blockchain;
 
-bc::Transaction::Transaction(std::vector<Operation *> opers, int nonce)
+bc::Transaction::Transaction(const std::vector<Operation *> &opers, int nonce)
     : operations(opers), nonce(nonce)
 {
   std::string message;
@@ -17,14 +17,18 @@ bc::Transaction::Transaction(std::vector<Operation *> opers, int nonce)
   delete[] hash;
 }
 
+bc::Transaction::~Transaction()
+{
+  for (auto oper : operations)
+    delete oper;
+}
+
 std::string bc::Transaction::ToString() const
 {
   std::string result;
-
-  result += "ID: " + ID + ", OPERS: {";
+  result += ID;
   for (auto oper : operations)
-    result += '"' + oper->ToString() + "\",";
-  result += "}, nonce: " + std::to_string(nonce);
+    result += oper->ToString() + '\n';
   return result;
 }
 
