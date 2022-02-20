@@ -3,6 +3,7 @@ INCLUDE_DIR := include
 BIN_DIR := bin
 BUILD_DIR := build
 LIBS_DIR := libs
+TESTS_DIR := tests
 
 CXX := g++
 CXXFLAGS := -Wall -g -I$(INCLUDE_DIR) -I$(LIBS_DIR)
@@ -28,3 +29,15 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp $(INCLUDE_DIR)/%.h
 	@$(CXX) $(CXXFLAGS) -c $< -o $@
 
 build: makedirs $(OBJ_MODULES)
+
+$(BUILD_DIR)/%.o: $(TESTS_DIR)/%.cpp
+	@echo "[INFO]: Building '$<' test"
+	@$(CXX) $(CXXFLAGS) -c $< -o $@
+
+TESTS := $(basename $(notdir $(wildcard $(TESTS_DIR)/*.cpp)))
+OBJ_TESTS := $(addprefix $(BUILD_DIR)/, $(addsuffix .o, $(TESTS)))
+
+tests: makedirs $(OBJ_TESTS)
+	@echo "[INFO]: Linking tests"
+	@$(CXX) $(CXXFLAGS) $(filter %.o, $^) -o $(BIN_DIR)/tests
+	@./$(BIN_DIR)/tests
