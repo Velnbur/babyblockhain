@@ -5,9 +5,9 @@ BUILD_DIR := build
 LIBS_DIR := libs
 TESTS_DIR := tests
 
-CXX := g++
+CXX := clang++
 CXXFLAGS := -Wall -g -I$(INCLUDE_DIR) -I$(LIBS_DIR)
-MODULES := operation transaction sha1
+MODULES := operation commit sha1
 OBJ_MODULES := $(addprefix $(BUILD_DIR)/, $(addsuffix .o, $(MODULES)))
 
 ifdef DEBUG
@@ -30,12 +30,19 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp $(INCLUDE_DIR)/%.h
 
 build: makedirs $(OBJ_MODULES)
 
+clean:
+	@echo "[INFO]: Cleaning '$(BUILD_DIR)'"
+	@rm $(BUILD_DIR)/*
+	@echo "[INFO]: Cleaning '$(BIN_DIR)'"
+	@rm $(BIN_DIR)/*
+
 $(BUILD_DIR)/%.o: $(TESTS_DIR)/%.cpp
 	@echo "[INFO]: Building '$<' test"
 	@$(CXX) $(CXXFLAGS) -c $< -o $@
 
 TESTS := $(basename $(notdir $(wildcard $(TESTS_DIR)/*.cpp)))
 OBJ_TESTS := $(addprefix $(BUILD_DIR)/, $(addsuffix .o, $(TESTS)))
+OBJ_TESTS += $(OBJ_MODULES)
 
 tests: makedirs $(OBJ_TESTS)
 	@echo "[INFO]: Linking tests"
