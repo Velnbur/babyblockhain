@@ -7,6 +7,7 @@ TESTS_DIR := tests
 
 CXX := clang++
 CXXFLAGS := -Wall -g -I$(INCLUDE_DIR) -I$(LIBS_DIR)
+LIBS := -ldl -lcrypto
 
 CC := clang
 CCFLAGS := -Wall -g -I$(LIBS_DIR)
@@ -34,7 +35,12 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp $(INCLUDE_DIR)/%.h
 	@echo "[INFO]: Building '$<' module"
 	@$(CXX) $(CXXFLAGS) -c $< -o $@
 
+
 build: makedirs $(OBJ_MODULES)
+
+build_example: makedirs $(OBJ_MODULES)
+	@echo "[INFO]: Linking example"
+	@$(CXX) $(CXXFLAGS) $(filter %.o, $^) examples/main.cpp -o $(BIN_DIR)/example $(LIBS)
 
 clean:
 	@rm $(BUILD_DIR)/*

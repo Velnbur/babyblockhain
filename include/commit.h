@@ -41,6 +41,7 @@ public:
   const std::string &getID() const;
   const std::string &getUserID() const;
   const std::string &getSign() const;
+  const std::string &getMessage() const;
   std::string toString() const;
   void doSign(const std::string &priv_key);
 

@@ -57,21 +57,26 @@ const std::string &bc::Commit::getSign() const
   return sign;
 }
 
-std::string bc::Commit::toString() const
+const std::string &bc::Commit::getMessage() const
 {
   return message;
 }
 
+std::string bc::Commit::toString() const
+{
+  return sign + '\n' + user_id + '\n' + message;
+}
+
 #define KEY_SIZE 256
 
-void bc::Commit::doSign(const std::string &priv_key, const std::string &pub_key)
+void bc::Commit::doSign(const std::string &priv_key)
 {
   DSA *dsa = DSA_new();
   DSA_generate_parameters_ex(dsa, KEY_SIZE, NULL, 0, NULL, NULL, NULL);
   BIGNUM *priv = BN_new();
   BIGNUM *pub = BN_new();
   BN_hex2bn(&priv, priv_key.c_str());
-  BN_hex2bn(&pub, pub_key.c_str());
+  BN_hex2bn(&pub, user_id.c_str());
   DSA_set0_key(dsa, pub, priv);
 
   DSA_SIG *sig =
