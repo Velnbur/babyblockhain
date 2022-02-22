@@ -7,12 +7,18 @@ TESTS_DIR := tests
 
 CXX := clang++
 CXXFLAGS := -Wall -g -I$(INCLUDE_DIR) -I$(LIBS_DIR)
+
+CC := clang
+CCFLAGS := -Wall -g -I$(LIBS_DIR)
+
 MODULES := operation commit sha1
 OBJ_MODULES := $(addprefix $(BUILD_DIR)/, $(addsuffix .o, $(MODULES)))
 
 ifdef DEBUG
 CXXFLAGS += -DDEBUG
 endif
+
+all: makedirs build clean
 
 makedirs:
 	@if [ ! -d $(BUILD_DIR) ] || [ ! -d $(BIN_DIR) ]; then \
@@ -22,7 +28,7 @@ makedirs:
 
 $(BUILD_DIR)/sha1.o: $(LIBS_DIR)/sha1.c $(LIBS_DIR)/sha1.h
 	@echo "[INFO]: Building 'sha1' library"
-	@$(CXX) $(CXXFLAGS) -c $< -o $@
+	@$(CC) $(CCFLAGS) -c $< -o $@
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp $(INCLUDE_DIR)/%.h
 	@echo "[INFO]: Building '$<' module"
@@ -31,9 +37,7 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp $(INCLUDE_DIR)/%.h
 build: makedirs $(OBJ_MODULES)
 
 clean:
-	@echo "[INFO]: Cleaning '$(BUILD_DIR)'"
 	@rm $(BUILD_DIR)/*
-	@echo "[INFO]: Cleaning '$(BIN_DIR)'"
 	@rm $(BIN_DIR)/*
 
 $(BUILD_DIR)/%.o: $(TESTS_DIR)/%.cpp

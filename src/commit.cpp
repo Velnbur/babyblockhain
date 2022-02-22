@@ -19,7 +19,8 @@ bc::Commit::Commit(const std::vector<Operation *> &opers, int nonce,
   for (auto oper : opers)
     message.append(oper->toString() + '\n');
 
-  char *hash = SHA1(message.c_str(), message.size());
+  char *hash =
+      SHA1((message + std::to_string(this->nonce)).c_str(), message.size());
 
   hash_to_string(hash, ID);
   message = ID + '\n' + message;
