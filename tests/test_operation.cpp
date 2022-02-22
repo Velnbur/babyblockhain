@@ -1,5 +1,5 @@
-#include "../src/operation.cpp"
 #include "ctest.h"
+#include "operation.h"
 #include <string>
 
 CTEST_DATA(operation)
@@ -30,10 +30,10 @@ CTEST2(operation, path_add_slash)
 CTEST2(operation, to_string)
 {
   ASSERT_STR("0;2;/hello.txt;\"Insert string\"",
-             data->oper->ToString().c_str());
+             data->oper->toString().c_str());
 }
 
 CTEST2(operation, to_string_delete)
 {
-  ASSERT_STR("1;2;/hello.txt", data->oper_delete->ToString().c_str());
+  ASSERT_STR("1;2;/hello.txt", data->oper_delete->toString().c_str());
 }
