@@ -39,8 +39,9 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  * CHUNK_SIZE - unfilled elements in array will
  * be zero.
  * */
-static void get_chunk(const char *mess, size_t len, uint32_t res[_SEG_LEN]) {
-  int i, j;
+static void get_chunk(const char *mess, size_t len, uint32_t res[_SEG_LEN])
+{
+  size_t i, j;
   size_t res_len = len < CHUNK_SIZE ? len : CHUNK_SIZE;
 
   for (i = 0; i < _SEG_LEN - 1; ++i)
@@ -72,7 +73,8 @@ static void get_chunk(const char *mess, size_t len, uint32_t res[_SEG_LEN]) {
 ** by one, result will be '0101 0001'. That is just
 ** left shift with setting overflowed bits to the end.
 */
-static uint32_t leftrotate(uint32_t num, uint bits) {
+static uint32_t leftrotate(uint32_t num, uint32_t bits)
+{
   return (num << bits) + (num >> (INT32_SIZE * CHAR_BIT - bits));
 }
 
@@ -83,7 +85,8 @@ static uint32_t leftrotate(uint32_t num, uint bits) {
 ** that are used in algorithm.
 */
 static void build_hash(uint32_t h0, uint32_t h1, uint32_t h2, uint32_t h3,
-                       uint32_t h4, char res[HASH_SIZE]) {
+                       uint32_t h4, char res[HASH_SIZE])
+{
   int i;
   for (i = 0; i < HASH_SIZE; ++i) {
     if (i < 4) {
@@ -121,7 +124,8 @@ enum STD_INIT_VALS {
 /*
 ** Get F function depending on round 't'
 */
-static uint32_t func(uint32_t x, uint32_t y, uint32_t z, uint32_t t) {
+static uint32_t func(uint32_t x, uint32_t y, uint32_t z, uint32_t t)
+{
   if (t < 20) {
     return (x & y) ^ (x & z);
   } else if (t < 40) {
@@ -138,7 +142,8 @@ static uint32_t func(uint32_t x, uint32_t y, uint32_t z, uint32_t t) {
 /*
 ** Get K constant depending on round 't'
 */
-static uint32_t get_k(uint32_t t) {
+static uint32_t get_k(uint32_t t)
+{
   if (t < 20) {
     return K_LEVEL1;
   } else if (t < 40) {
@@ -154,7 +159,8 @@ static uint32_t get_k(uint32_t t) {
 
 #define WORDS_LEN 80
 
-char *SHA1(const char *message, size_t len) {
+char *SHA1(const char *message, size_t len)
+{
   uint64_t i, j;
   uint32_t words[WORDS_LEN];
   char *result = (char *)malloc(HASH_SIZE);
