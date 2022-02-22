@@ -1,16 +1,16 @@
-#include "../libs/sha1.c"
-#include "../src/transaction.cpp"
 #include "ctest.h"
+#include "sha1.h"
+#include <commit.h>
 #include <iostream>
 #include <string>
 #include <vector>
 
-CTEST_DATA(transaction)
+CTEST_DATA(commit)
 {
-  blockchain::Transaction *trans;
+  blockchain::Commit *trans;
 };
 
-CTEST_SETUP(transaction)
+CTEST_SETUP(commit)
 {
   std::vector<blockchain::Operation *> vec;
   std::string str("Insert string");
@@ -22,5 +22,11 @@ CTEST_SETUP(transaction)
 
   vec.push_back(new blockchain::Operation(blockchain::OperationType::DELETE, 1,
                                           "/Document/hello.txt"));
-  data->trans = new blockchain::Transaction(vec, -1);
+  data->trans = new blockchain::Commit(vec, -1, "Hello world");
+}
+
+CTEST2(commit, test)
+{
+
+  std::cout << std::hex << data->trans->toString() << std::endl;
 }
