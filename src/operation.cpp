@@ -18,7 +18,7 @@ bc::Operation::Operation(OperationType type, unsigned int line_number,
     this->str = new std::string(*str);
 }
 
-std::string bc::Operation::ToString() const
+std::string bc::Operation::toString() const
 {
   std::string result;
   result += std::to_string(static_cast<int>(type)) + ';' + std::to_string(n) +

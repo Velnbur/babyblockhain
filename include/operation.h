@@ -20,6 +20,7 @@ struct Operation {
   */
   Operation(OperationType type, unsigned int line_number,
             const std::string &path, const std::string *str = nullptr);
+  ~Operation();
   /*
   ** Return formated like in documentation string:
   ** 'method;str;path'
@@ -29,8 +30,7 @@ struct Operation {
   ** For example:
   ** '0;"Hello";/hello.txt'
   */
-  std::string ToString() const;
-  ~Operation();
+  std::string toString() const;
 };
 } // namespace blockchain
 
