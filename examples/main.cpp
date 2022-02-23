@@ -1,4 +1,3 @@
-
 #include <commit.h>
 #include <iostream>
 #include <openssl/bn.h>
@@ -14,8 +13,10 @@ void create_keys(std::string &pub, std::string &priv)
   DSA_generate_key(dsa);
   BIGNUM *pub_key = BN_new();
   BIGNUM *priv_key = BN_new();
-  BN_copy(pub_key, DSA_get0_pub_key(dsa));
-  BN_copy(priv_key, DSA_get0_priv_key(dsa));
+  BIGNUM *priv_copy = NULL, *pub_copy = NULL;
+  DSA_get0_key(dsa, (const BIGNUM **)&pub_copy, (const BIGNUM **)&priv_copy);
+  BN_copy(pub_key, pub_copy);
+  BN_copy(priv_key, priv_copy);
 
   char *hex = BN_bn2hex(pub_key);
   pub = hex;

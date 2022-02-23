@@ -4,7 +4,6 @@
 #include <ctime>
 #include <openssl/bn.h>
 #include <openssl/dsa.h>
-#include <openssl/ossl_typ.h>
 #include <random>
 #include <string>
 
