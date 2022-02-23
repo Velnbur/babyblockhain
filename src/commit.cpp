@@ -67,8 +67,6 @@ std::string bc::Commit::toString() const
   return sign + '\n' + user_id + '\n' + message;
 }
 
-#define KEY_SIZE 256
-
 void bc::Commit::doSign(const std::string &priv_key)
 {
   DSA *dsa = DSA_new();
