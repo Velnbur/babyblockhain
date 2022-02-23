@@ -78,7 +78,7 @@ operation3
 
 ## Dependencies
 
-- openssl 1.1.*
+-  libressl 3.4.*
 
 
 ## Компіляція
