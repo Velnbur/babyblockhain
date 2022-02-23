@@ -5,9 +5,17 @@ BUILD_DIR := build
 LIBS_DIR := libs
 TESTS_DIR := tests
 
+UNAME_S := $(shell uname -s)
 CXX := clang++
-CXXFLAGS := -Wall -g -I$(INCLUDE_DIR) -I$(LIBS_DIR)
+CXXFLAGS := -Wall -g -std=c++11 -I$(INCLUDE_DIR) -I$(LIBS_DIR)
+
+LD_FLAGS :=
 LIBS := -ldl -lcrypto
+
+ifeq ($(UNAME_S),Darwin)
+CXXFLAGS += -I/usr/local/opt/libressl/include
+LD_FLAGS += -L/usr/local/opt/libressl/lib
+endif
 
 CC := clang
 CCFLAGS := -Wall -g -I$(LIBS_DIR)
@@ -20,6 +28,7 @@ CXXFLAGS += -DDEBUG
 endif
 
 all: makedirs build clean
+	echo
 
 makedirs:
 	@if [ ! -d $(BUILD_DIR) ] || [ ! -d $(BIN_DIR) ]; then \
@@ -45,6 +54,8 @@ build_example: makedirs $(OBJ_MODULES)
 clean:
 	@rm $(BUILD_DIR)/*
 	@rm $(BIN_DIR)/*
+	@rmdir $(BUILD_DIR)
+	@rmdir $(BIN_DIR)
 
 $(BUILD_DIR)/%.o: $(TESTS_DIR)/%.cpp
 	@echo "[INFO]: Building '$<' test"
